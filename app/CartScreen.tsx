@@ -51,12 +51,12 @@ export default function CartScreen() {
   const deleteSelected = () => {
     if (selectedItems.length === 0) return;
     Alert.alert(
-      "Delete Selected",
-      `Are you sure you want to remove ${selectedItems.length} item(s) from your cart?`,
+      "Remove Items",
+      `Are you sure you want to remove ${selectedItems.length} selected item(s)?`,
       [
         { text: "Cancel", style: "cancel" },
         {
-          text: "Delete",
+          text: "Remove",
           style: "destructive",
           onPress: () =>
             setCart((prev) => prev.filter((item) => !item.selected)),
@@ -77,15 +77,11 @@ export default function CartScreen() {
     </Svg>
   );
 
-  // --- RE-ADDED EMPTY STATE COMPONENT ---
   const EmptyCart = () => (
     <View style={styles.emptyContainer}>
       <Text style={{ fontSize: 60, marginBottom: 20 }}>🛒</Text>
       <Text style={[styles.emptyTitle, { color: theme.text }]}>
         Your cart is empty
-      </Text>
-      <Text style={[styles.emptySub, { color: theme.sub }]}>
-        Looks like you haven't added anything yet.
       </Text>
       <TouchableOpacity
         style={[
@@ -105,25 +101,15 @@ export default function CartScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.bg }]}>
+      {/* Centered Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
           <BackIcon />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.text }]}>My Cart</Text>
-        {selectedItems.length > 0 ? (
-          <TouchableOpacity
-            onPress={deleteSelected}
-            style={styles.deleteSelectedBtn}
-          >
-            <Text style={styles.deleteSelectedText}>
-              Delete ({selectedItems.length})
-            </Text>
-          </TouchableOpacity>
-        ) : (
-          <View style={{ width: 40 }} />
-        )}
       </View>
 
+      {/* Select All & Delete Line */}
       {cart.length > 0 && (
         <View style={styles.selectAllRow}>
           <TouchableOpacity
@@ -145,13 +131,23 @@ export default function CartScreen() {
               Select All
             </Text>
           </TouchableOpacity>
+
+          {selectedItems.length > 0 && (
+            <TouchableOpacity
+              onPress={deleteSelected}
+              style={styles.deleteSelectedBtn}
+            >
+              <Text style={styles.deleteSelectedText}>
+                Delete ({selectedItems.length})
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
       )}
 
       <FlatList
         data={cart}
         keyExtractor={(item) => item.id}
-        // --- ADDED THESE TWO LINES BACK ---
         ListEmptyComponent={EmptyCart}
         contentContainerStyle={
           cart.length === 0
@@ -215,6 +211,7 @@ export default function CartScreen() {
         )}
       />
 
+      {/* Summary Footer */}
       {cart.length > 0 && (
         <View
           style={[

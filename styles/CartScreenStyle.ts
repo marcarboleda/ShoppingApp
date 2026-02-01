@@ -3,31 +3,49 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: { flex: 1, paddingTop: 50 },
   header: {
+    height: 50,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     paddingHorizontal: 15,
     marginBottom: 10,
+    width: "100%",
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    position: "absolute",
+    left: 0,
+    right: 0,
+    textAlign: "center",
+    zIndex: 0,
+  },
+  backBtn: {
+    position: "absolute",
+    left: 15,
+    zIndex: 10,
+    padding: 5,
+    justifyContent: "center",
+    height: "100%",
+  },
+  selectAllRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    marginBottom: 15,
+    justifyContent: "space-between",
+    height: 40,
   },
   deleteSelectedBtn: {
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 8,
-    backgroundColor: "rgba(255, 77, 77, 0.1)", // Light red tint
+    backgroundColor: "rgba(255, 77, 77, 0.1)",
   },
   deleteSelectedText: {
     color: "#ff4d4d",
     fontWeight: "600",
     fontSize: 14,
-  },
-  headerTitle: { fontSize: 20, fontWeight: "700" },
-  backBtn: { padding: 5 },
-  selectAllRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    marginBottom: 10,
-    justifyContent: "space-between",
   },
   cartItem: {
     flexDirection: "row",
@@ -72,7 +90,6 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
   qtyText: { marginHorizontal: 15, fontWeight: "bold" },
-  deleteBtn: { padding: 8 },
   footer: {
     position: "absolute",
     bottom: 0,
