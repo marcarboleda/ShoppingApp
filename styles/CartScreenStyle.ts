@@ -1,5 +1,24 @@
 import { StyleSheet } from "react-native";
 
+export const Themes = {
+  dark: {
+    bg: "#121212",
+    text: "#FFF",
+    card: "#1E1E1E",
+    border: "#333",
+    sub: "#AAA",
+    accent: "#fff",
+  },
+  light: {
+    bg: "#F8F9FA",
+    text: "#000",
+    card: "#FFF",
+    border: "#EEE",
+    sub: "#666",
+    accent: "#000",
+  },
+};
+
 export const styles = StyleSheet.create({
   container: { flex: 1, paddingTop: 50 },
   header: {

@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   Alert,
   FlatList,
@@ -9,8 +9,8 @@ import {
   View,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import { CartItem, Product, useCart } from "../context/CartContext";
-import { styles } from "../styles/CheckoutScreenStyle";
+import { useCart } from "../context/CartContext";
+import { styles, Themes } from "../styles/CheckoutScreenStyle";
 
 export default function CheckoutScreen() {
   const { cart, products, imageMap, updateQuantity, isDarkMode, setCart } =
@@ -18,43 +18,22 @@ export default function CheckoutScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
 
+  const theme = isDarkMode ? Themes.dark : Themes.light;
   const [directQty, setDirectQty] = useState(Number(params.directBuyQty) || 1);
-  let checkoutItems: (CartItem | (Product & { quantity: number }))[] = [];
   const isDirectBuy = !!params.directBuyId;
 
-  if (isDirectBuy) {
-    const product = products.find((p) => p.id === params.directBuyId);
-    if (product) checkoutItems = [{ ...product, quantity: directQty }];
-  } else {
-    checkoutItems = cart.filter((item) => item.selected);
-  }
+  const checkoutItems = useMemo(() => {
+    if (isDirectBuy) {
+      const product = products.find((p) => p.id === params.directBuyId);
+      return product ? [{ ...product, quantity: directQty }] : [];
+    }
+    return cart.filter((item) => item.selected);
+  }, [isDirectBuy, params.directBuyId, products, directQty, cart]);
 
   const total = checkoutItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
-
-  const theme = isDarkMode
-    ? {
-        bg: "#121212",
-        text: "#FFF",
-        card: "#1E1E1E",
-        qtyBg: "#333",
-        qtyText: "#FFF",
-        border: "#333",
-        accent: "#fff",
-        link: "#fff",
-      }
-    : {
-        bg: "#FFF",
-        text: "#000",
-        card: "#F9F9F9",
-        qtyBg: "#F0F0F0",
-        qtyText: "#000",
-        border: "#EEE",
-        accent: "#000",
-        link: "#007AFF",
-      };
 
   const BackIcon = () => (
     <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">

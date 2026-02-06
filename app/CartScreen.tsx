@@ -10,30 +10,14 @@ import {
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { useCart } from "../context/CartContext";
-import { styles } from "../styles/CartScreenStyle";
+import { styles, Themes } from "../styles/CartScreenStyle";
 
 export default function CartScreen() {
   const { cart, updateQuantity, toggleSelect, isDarkMode, imageMap, setCart } =
     useCart();
   const router = useRouter();
 
-  const theme = isDarkMode
-    ? {
-        bg: "#121212",
-        text: "#FFF",
-        card: "#1E1E1E",
-        border: "#333",
-        sub: "#AAA",
-        accent: "#fff",
-      }
-    : {
-        bg: "#F8F9FA",
-        text: "#000",
-        card: "#FFF",
-        border: "#EEE",
-        sub: "#666",
-        accent: "#000",
-      };
+  const theme = isDarkMode ? Themes.dark : Themes.light;
 
   const selectedItems = cart.filter((item) => item.selected);
   const totalPrice = selectedItems.reduce(
@@ -101,7 +85,6 @@ export default function CartScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: theme.bg }]}>
-      {/* Centered Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()} style={styles.backBtn}>
           <BackIcon />
@@ -109,7 +92,6 @@ export default function CartScreen() {
         <Text style={[styles.headerTitle, { color: theme.text }]}>My Cart</Text>
       </View>
 
-      {/* Select All & Delete Line */}
       {cart.length > 0 && (
         <View style={styles.selectAllRow}>
           <TouchableOpacity
@@ -211,7 +193,6 @@ export default function CartScreen() {
         )}
       />
 
-      {/* Summary Footer */}
       {cart.length > 0 && (
         <View
           style={[
